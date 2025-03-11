@@ -15,10 +15,6 @@ steps:
     version: '6.0.x'
     installationPath: /usr/lib64/dotnet  # Forzar la instalación en la ruta correcta
 
-- script: |
-    echo "Cleaning NuGet cache..."
-    dotnet nuget locals all --clear
-  displayName: 'Clear NuGet Cache'
 
 - task: DotNetCoreCLI@2
   displayName: 'Restore project dependencies'
