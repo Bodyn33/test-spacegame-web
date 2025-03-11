@@ -2,13 +2,13 @@ trigger:
 - '*'
 
 pool:
-  name: 'Default' #replace if needed with name of your agent pool
-
+  name: 'Default' 
 variables:
   buildConfiguration: 'Release'
   wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
   dotnetSdkVersion: '6.x'
   DOTNET_CLI_HOME: '/home/azureagent'
+
 
 steps:
 - task: UseDotNet@2
@@ -43,7 +43,7 @@ steps:
 
 - template: templates/build.yml
   parameters:
-    buildConfiguration: 'Release
+    buildConfiguration: 'Release'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
