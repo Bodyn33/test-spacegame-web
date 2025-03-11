@@ -6,6 +6,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  DOTNET_CLI_HOME: '/home/azureagent'
 
 steps:
 - task: UseDotNet@2
