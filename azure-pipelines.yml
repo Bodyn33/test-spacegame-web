@@ -1,18 +1,30 @@
 trigger:
-- '*'
+  - '*'
 
 pool:
-  name: 'Default' # Replace Default with the name of your agent pool if you used a different pool
+  name: 'Default' # Asegúrate de que el pool sea el correcto
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK 6.x'
+  displayName: 'Use .NET SDK 6.0'
   inputs:
-    packageType: sdk
-    version: '6.x'
+    packageType: 'sdk'
+    version: '6.0.x'
+    installationPath: /usr/lib64/dotnet  # Forzar la instalación en la ruta correcta
+
+- script: |
+    echo "Cleaning NuGet cache..."
+    dotnet nuget locals all --clear
+  displayName: 'Clear NuGet Cache'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore project dependencies'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
 
 - task: Npm@1
   displayName: 'Run npm install'
@@ -28,12 +40,6 @@ steps:
 - script: 'echo "$(Build.DefinitionName), $(Build.BuildId), $(Build.BuildNumber)" > buildinfo.txt'
   displayName: 'Write build info'
   workingDirectory: Tailspin.SpaceGame.Web/wwwroot
-
-- task: DotNetCoreCLI@2
-  displayName: 'Restore project dependencies'
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build the project - Release'
